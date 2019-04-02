@@ -34,9 +34,8 @@ namespace AstmaAPI
         public static IWebHost BuildWebHost(string[] args)
         {
             return WebHost.CreateDefaultBuilder(args)
-                .UseKestrel()
-                .UseUrls("http://0.0.0.0:5000")
                 .UseStartup<Startup>()
+                .UseKestrel(options => options.ConfigureEndpoints())
                 .Build();
         }
     }

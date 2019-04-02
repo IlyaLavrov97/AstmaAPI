@@ -3,6 +3,7 @@ using AstmaAPI.Models.DBO;
 using AstmaAPI.ViewModels.Request;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,13 +22,13 @@ namespace AstmaAPI.Controllers
             HostingEnvironment = hostingEnvironment;
         }
 
-        protected async Task<IActionResult> MethodWrapper<TParam>(Func<UserToken, TParam, Task<IActionResult>> func, TParam param)
+        protected async Task<IActionResult> MethodWrapper<TParam>(Func<UserToken, Task<IActionResult>> func, TParam param)
             where TParam : BaseRequest
         {
             try
             {
                 if (CheckToken(param, out UserToken userToken))
-                    return await func(userToken, param);
+                    return await func(userToken);
                 else
                     return BadRequest(ModelState);
             }
@@ -37,6 +38,7 @@ namespace AstmaAPI.Controllers
                 ModelState.AddModelError("error", "Ошибка сервера :(");
 #if DEBUG
                 ModelState.AddModelError("ex", string.IsNullOrEmpty(ex.StackTrace) ? ex.InnerException?.StackTrace ?? string.Empty : ex.StackTrace);
+                Console.WriteLine(ex.Message);
 #endif
                 return BadRequest(ModelState);
             }
@@ -44,7 +46,7 @@ namespace AstmaAPI.Controllers
 
         protected bool CheckToken(BaseRequest request, out UserToken userToken)
         {
-            userToken = Context.UserTokens.FirstOrDefault(token => token.Value == request.Token);
+            userToken = Context.UserTokens.Include(ut => ut.User).FirstOrDefault(token => token.Value == request.Token);
 
             if (userToken != null)
                 return true;

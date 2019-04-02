@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 
 namespace AstmaAPI.Models.DBO
@@ -24,8 +26,29 @@ namespace AstmaAPI.Models.DBO
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
+        [DataMember]
+        [Required]
+        [StringLength(256)]
+        public string Surname { get; set; }
+
+        [DataMember]
+        [Required]
+        public int Sex { get; set; }
+
+        [DataMember]
+        [Required]
+        public DateTime BirthDate { get; set; }
+
+        [DataMember]
+        public int Height { get; set; }
+
+        [DataMember]
+        public int Weight { get; set; }
+
         [IgnoreDataMember]
         public UserToken UserToken { get; set; }
 
+        [IgnoreDataMember]
+        public ICollection<ChartValue> Values { get; set; }
     }
 }

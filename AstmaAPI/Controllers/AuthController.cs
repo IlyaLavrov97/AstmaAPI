@@ -4,11 +4,14 @@ using AstmaAPI.EF;
 using AstmaAPI.Models.DBO;
 using AstmaAPI.ViewModels.Request;
 using AstmaAPI.ViewModels.Response;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace AstmaAPI.Controllers
 {
+
+    [EnableCors("MyPolicy")]
     [Produces("application/json")]
     [Route("api/login")]
     public class AuthController : Controller
@@ -35,6 +38,36 @@ namespace AstmaAPI.Controllers
             }
         }
 
+        // POST: api/login/signup
+        [HttpPost("signup")]
+        public async Task<IActionResult> Signup([FromBody]SignupRequest auth)
+        {
+            User newUser = new User
+            {
+                BirthDate = auth.BirthDate,
+                Height = auth.Height,
+                Login = auth.Login,
+                Name = auth.Name,
+                Password = auth.Password,
+                Sex = auth.Sex,
+                Surname = auth.Surname,
+                Weight = auth.Weight
+            };
+
+            try
+            {
+                await _context.Users.AddAsync(newUser);
+
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+           
+            return Ok(await Authenticate(newUser));
+        }
+
         private async Task<AuthResponse> Authenticate(User user)
         {
             UserToken token = await _context.UserTokens.FirstOrDefaultAsync(tok => tok.UserId == user.ID);
@@ -56,7 +89,7 @@ namespace AstmaAPI.Controllers
                 await _context.SaveChangesAsync();
             }
 
-            return new AuthResponse { Token = token.Value };
+            return new AuthResponse { Token = token.Value, User = user };
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AstmaAPI.Models.DBO;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 
@@ -21,5 +22,12 @@ namespace AstmaAPI.Models
         [DataMember]
         [Required]
         public bool IsMorning { get; set; }
+
+        [IgnoreDataMember]
+        [Required]
+        public User User { get; set; }
+
+        [IgnoreDataMember]
+        public int UserId { get; set; }
     }
 }
