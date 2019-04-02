@@ -38,6 +38,23 @@ namespace AstmaAPI.Controllers
             }
         }
 
+        // POST: api/login/user
+        [HttpPost("user")]
+        public async Task<IActionResult> GetUser([FromBody]BaseRequest auth)
+        {
+            User user = await _context.Users
+                .Include(u => u.UserToken)
+                .FirstOrDefaultAsync(u => u.UserToken.Value == auth.Token);
+
+            if (user != null)
+                return Ok(await Authenticate(user));
+            else
+            {
+                ModelState.AddModelError("error", "Токен недействителен");
+                return BadRequest(ModelState);
+            }
+        }
+
         // POST: api/login/signup
         [HttpPost("signup")]
         public async Task<IActionResult> Signup([FromBody]SignupRequest auth)
