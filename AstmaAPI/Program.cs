@@ -1,5 +1,7 @@
 ﻿using System;
 using AstmaAPI.EF;
+using AstmaAPI.Extensions;
+using AstmaAPI.Helpers;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,7 +20,7 @@ namespace AstmaAPI
                 var services = scope.ServiceProvider;
                 try
                 {
-                    var context = services.GetRequiredService<DataContext>();
+                    var context = services.GetRequiredService<MainContext>();
                     DbInitializer.Initialize(context);
                 }
                 catch (Exception ex)

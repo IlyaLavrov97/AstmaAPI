@@ -4,8 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using AstmaAPI.EF;
+using AstmaAPI.Helpers;
 using AstmaAPI.Models;
-using AstmaAPI.ViewModels.Request;
+using AstmaAPI.Models.API.Request;
 using DinkToPdf;
 using DinkToPdf.Contracts;
 using Microsoft.AspNetCore.Hosting;
@@ -18,10 +19,10 @@ namespace AstmaAPI.Controllers
     [Route("api/chart")]
     public class ChartController : BaseController
     {
-        private readonly DataContext _context;
+        private readonly MainContext _context;
         private IConverter _converter;
 
-        public ChartController(DataContext context, IHostingEnvironment hostingEnvironment, IConverter converter)
+        public ChartController(MainContext context, IHostingEnvironment hostingEnvironment, IConverter converter)
             :base (context, hostingEnvironment)
         {
             _context = context;

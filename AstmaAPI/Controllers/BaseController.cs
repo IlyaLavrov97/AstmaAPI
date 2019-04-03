@@ -1,11 +1,10 @@
 ﻿using AstmaAPI.EF;
+using AstmaAPI.Models.API.Request;
 using AstmaAPI.Models.DBO;
-using AstmaAPI.ViewModels.Request;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -13,10 +12,10 @@ namespace AstmaAPI.Controllers
 {
     public class BaseController : Controller
     {
-        protected readonly DataContext Context;
+        protected readonly MainContext Context;
         protected readonly IHostingEnvironment HostingEnvironment;
 
-        public BaseController(DataContext context, IHostingEnvironment hostingEnvironment)
+        public BaseController(MainContext context, IHostingEnvironment hostingEnvironment)
         {
             Context = context;
             HostingEnvironment = hostingEnvironment;

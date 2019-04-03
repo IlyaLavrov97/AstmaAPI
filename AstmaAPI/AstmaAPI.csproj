@@ -6,9 +6,6 @@
 
   <ItemGroup>
     <None Remove="assets\styles.css" />
-    <None Remove="libwkhtmltox.dll" />
-    <None Remove="libwkhtmltox.dylib" />
-    <None Remove="libwkhtmltox.so" />
     <None Remove="wkhtmltox\32 bit\libwkhtmltox.dll" />
     <None Remove="wkhtmltox\32 bit\libwkhtmltox.dylib" />
     <None Remove="wkhtmltox\32 bit\libwkhtmltox.so" />
@@ -19,15 +16,6 @@
 
   <ItemGroup>
     <Content Include="assets\styles.css">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="libwkhtmltox.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="libwkhtmltox.dylib">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="libwkhtmltox.so">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="wkhtmltox\32 bit\libwkhtmltox.dll">
@@ -68,7 +56,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="KestrelServerOptionsExtensions.cs">
+    <Compile Update="Extensions\KestrelServerOptionsExtensions.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
